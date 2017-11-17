@@ -10,7 +10,6 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Main {
@@ -23,41 +22,33 @@ public class Main {
 		gson1 = new Gson();
 		gson2 = new Gson();
 		
+		List<Query> firebase = getFirebase(args[0]);
+		List<Location> timeline = getTimeline(args[1]);
+		
+		// TODO: Implement algorithm to sort through firebase
+		// 		 and timeline data
+	}
+	
+	private static List<Query> getFirebase(String file) throws FileNotFoundException {
+		List<Query> queries = new ArrayList<Query>();
+		
 		// Read in data
 		JsonParser parser = new JsonParser();
-		JsonElement element = parser.parse(new FileReader(args[0]));
-		
-		List<Query> queries = new ArrayList<Query>();
+		JsonElement element = parser.parse(new FileReader(file));
 		
 		if(element.isJsonObject()) {
 			JsonArray users = element.getAsJsonObject().get("-KyHoEYhRo3802OIvzew").getAsJsonArray();
-			int i = 0;
 			for(JsonElement e : users) {
 				queries.add(gson1.fromJson(e, Query.class));
-				Query q = queries.get(i++);
-				
-				System.out.println(q.getUserInput() + '\n');
-				
-				for(Place p : q.getPlacesAPI()) {
-					
-					System.out.println(p.getLatitude());
-					System.out.println(p.getLongitude());
-					System.out.println(p.getLikelihood());
-					System.out.println(p.getName());
-					System.out.println(p.getTime());
-				}
 			}
 		}
-				
-		// Read in data from Location History.json (Timeline data)
-		LocationHistory lh = gson2.fromJson(new BufferedReader(new FileReader(args[1])), LocationHistory.class);
-		List<Location> list = lh.getList();
 		
-		for(Location loc : list) {
-			System.out.println(loc.getTimestampMs());
-			System.out.println(loc.getLatitudeE7());
-			System.out.println(loc.getLongitudeE7());
-		}
+		return queries;
+	}
+	
+	private static List<Location> getTimeline(String file) throws FileNotFoundException {
+		LocationHistory lh = gson2.fromJson(new BufferedReader(new FileReader(file)), LocationHistory.class);
+		return lh.getList();
 	}
 }
 
