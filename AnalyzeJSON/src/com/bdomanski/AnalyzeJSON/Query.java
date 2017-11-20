@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Query {
-	private String userInput;
+	private long Time;
+	private String UserInput;
 	private List<Place> placesAPI = new ArrayList<Place>();
 	
+	public void setTime(long in) {
+		Time = in;
+	}
+	
+	public long getTime() {
+		return Time;
+	}
+	
 	public void setUserInput(String in) {
-		userInput = in;
+		UserInput = in;
 	}
 	
 	public String getUserInput() {
-		return userInput;
+		return UserInput;
 	}
 	
 	public void setPlacesAPI(List<Place> in) {

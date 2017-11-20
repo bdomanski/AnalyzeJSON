@@ -17,6 +17,13 @@ public class Main {
 	// Main interface to convert json to Java objects
 	private static Gson gson1, gson2;
 	
+	// Returns results for correlating Firebase data
+	private static FirebaseStats fbstats;
+	
+	// Returns results for correlating Timeline data
+	private static TimelineStats tlstats;
+	
+	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		
 		gson1 = new Gson();
@@ -25,8 +32,11 @@ public class Main {
 		List<Query> firebase = getFirebase(args[0]);
 		List<Location> timeline = getTimeline(args[1]);
 		
-		// TODO: Implement algorithm to sort through firebase
-		// 		 and timeline data
+		fbstats = new FirebaseStats(firebase);
+		System.out.println(fbstats.getSuccessRate());
+		
+		// TODO: Implement algorithm to sort through timeline data
+		
 	}
 	
 	private static List<Query> getFirebase(String file) throws FileNotFoundException {

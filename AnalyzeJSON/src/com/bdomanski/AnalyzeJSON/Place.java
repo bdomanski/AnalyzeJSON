@@ -2,9 +2,8 @@ package com.bdomanski.AnalyzeJSON;
 
 public class Place {
 	private double Latitude;
-	private double Longitude;
 	private double Likelihood;
-	private int Time;
+	private double Longitude;
 	private String Name;
 	
 	
@@ -16,14 +15,6 @@ public class Place {
 		return Latitude;
 	}
 	
-	public void setLongitude(double in) {
-		Longitude = in;
-	}
-	
-	public double getLongitude() {
-		return Longitude;
-	}
-	
 	public void setLikelihood(double in) {
 		Likelihood = in;
 	}
@@ -32,14 +23,14 @@ public class Place {
 		return Likelihood;
 	}
 	
-	public void setTime(int in) {
-		Time = in;
+	public void setLongitude(double in) {
+		Longitude = in;
 	}
 	
-	public int getTime() {
-		return Time;
+	public double getLongitude() {
+		return Longitude;
 	}
-	
+		
 	public void setName(String in) {
 		Name = in;
 	}
