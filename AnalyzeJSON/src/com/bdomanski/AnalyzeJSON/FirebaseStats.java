@@ -1,5 +1,6 @@
 package com.bdomanski.AnalyzeJSON;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
@@ -8,6 +9,9 @@ public class FirebaseStats {
 	
 	// Stores the main data for calculations
 	private List<Query> firebase;
+	
+	// Will store all of the hits
+	private List<Query> results = new ArrayList<Query>();
 	
 	// How often the user and PlacesAPI was similar
 	private double percentSuccess;
@@ -32,6 +36,10 @@ public class FirebaseStats {
 		processData();
 	}
 	
+	public List<Query> getResults() {
+		return results;
+	}
+	
 	public double getSuccessRate() {
 		return percentSuccess;
 	}
@@ -49,7 +57,10 @@ public class FirebaseStats {
 				placesAPI = q.getPlacesAPI().get(0).getName();
 				compResult = stringComp.apply(placesAPI, user);
 				
-				if(compResult < Math.max(placesAPI.length(), user.length()) * THRESHOLD) ++hits;
+				if(compResult < Math.max(placesAPI.length(), user.length()) * THRESHOLD) {
+					++hits;
+					results.add(q);
+				}
 			}
 		}
 		

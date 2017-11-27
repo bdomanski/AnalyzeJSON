@@ -5,27 +5,33 @@ public class Location {
 	private int latitudeE7;
 	private int longitudeE7;
 	
+	public Location() {
+		timestampMs = "0";
+		latitudeE7 = 0;
+		longitudeE7 = 0;
+	}
+	
 	public void setTimestampMs(String t) {
 		timestampMs = t;
 	}
 	
-	public String getTimestampMs() {
-		return timestampMs;
+	public long getTimestampMs() {
+		return Long.parseLong(timestampMs);
 	}
 	
 	public void setLatitudeE7(int l) {
 		latitudeE7 = l;
 	}
 	
-	public int getLatitudeE7() {
-		return latitudeE7;
+	public double getLatitudeE7() {
+		return latitudeE7 / 10000000.0;
 	}
 	
 	public void setLongitudeE7(int l) {
 		longitudeE7 = l;
 	}
 	
-	public int getLongitudeE7() {
-		return longitudeE7;
+	public double getLongitudeE7() {
+		return longitudeE7 / 10000000.0;
 	}
 }

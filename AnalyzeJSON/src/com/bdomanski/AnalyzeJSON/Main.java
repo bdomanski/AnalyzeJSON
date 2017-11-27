@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -29,13 +30,23 @@ public class Main {
 		gson1 = new Gson();
 		gson2 = new Gson();
 		
+		List<Query> results = new ArrayList<Query>();
 		List<Query> firebase = getFirebase(args[0]);
 		List<Location> timeline = getTimeline(args[1]);
 		
 		fbstats = new FirebaseStats(firebase);
+		results = fbstats.getResults();
+		
+		// Only compare previous results to timeline data to
+		// avoid double comparisons with PlacesAPI
+		tlstats = new TimelineStats(timeline, results);
+		
+		// Print out results from correlating data
+		System.out.print("Correlation rate between user input and Places API: ");
 		System.out.println(fbstats.getSuccessRate());
 		
-		// TODO: Implement algorithm to sort through timeline data
+		System.out.print("Correlation rate between past results and timeline: ");
+		System.out.println(tlstats.getSuccessRate());
 		
 	}
 	
@@ -58,7 +69,12 @@ public class Main {
 	
 	private static List<Location> getTimeline(String file) throws FileNotFoundException {
 		LocationHistory lh = gson2.fromJson(new BufferedReader(new FileReader(file)), LocationHistory.class);
-		return lh.getList();
+		List<Location> list = lh.getList();
+		
+		// Order should be first entry -> last entry
+		Collections.reverse(list);
+		
+		return list;
 	}
 }
 
